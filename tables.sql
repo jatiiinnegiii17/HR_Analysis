@@ -1,5 +1,6 @@
 -- create database walmart;
 -- use walmart;
+
 -- CREATE TABLE walmart_sales (
 --     invoice_id VARCHAR(20) PRIMARY KEY,
 --     branch CHAR(1),
@@ -18,4 +19,5 @@
 --     gross_margin_percentage DECIMAL(10,9),
 --     gross_income DECIMAL(10,4),
 --     rating DECIMAL(3,1)
+
 -- );
