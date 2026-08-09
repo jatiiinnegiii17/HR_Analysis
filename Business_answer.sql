@@ -1,3 +1,5 @@
+
+
 -- Question 1: What is the total headcount by department?
 -- select department,count(*) as headcount from hr_raw_data group by department order by headcount desc;
 
@@ -35,3 +37,60 @@
 
 -- Question 10: What is the salary range (min/max/avg) by country?
 -- select country,min(salary) as min_salary,max(salary) as max_salary,round(avg(salary),2) as avg_salary from hr_raw_data group by country; 
+
+-- Question 11: How does salary correlate with experience_years?
+-- select case 
+-- when experience_years between 0 and 5 then '0-5 yrs'
+-- when experience_years between 6 and 10 then '6-10 yrs'
+-- when experience_years between 11 and 15 then '11-15 yrs'
+-- when experience_years between 16 and 20 then '16-20 yrs'
+-- when experience_years between 21 and 25 then '21-25 yrs'
+-- else '26+ yrs'
+-- end as experience_band,
+-- round(avg(salary),2) as avg_salary
+-- from hr_raw_data
+-- group by experience_band
+-- order by experience_band;
+
+-- Question 12: What is the distribution of performance_rating across the company?
+-- select performance_rating,count(performance_rating)as rating_counts from hr_raw_data group by performance_rating; 
+
+-- I realised that data have some blank value so i checked it with below command
+-- SELECT * FROM hr_raw_data WHERE performance_rating = '' LIMIT 10;
+
+-- so i replaced the blank space with not rated by the below querie
+-- UPDATE hr_raw_data 
+-- SET performance_rating = 'Not Rated' 
+-- WHERE performance_rating = '';
+
+-- Question 13: Which departments have the highest proportion of "Excellent" ratings?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
