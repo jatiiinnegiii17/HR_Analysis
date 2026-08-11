@@ -64,16 +64,37 @@
 -- WHERE performance_rating = '';
 
 -- Question 13: Which departments have the highest proportion of "Excellent" ratings?
+-- SELECT department,
+--   COUNT(*) AS total_employees,
+--   SUM(CASE WHEN performance_rating = 'Excellent' THEN 1 ELSE 0 END) AS excellent_count,
+--   ROUND(SUM(CASE WHEN performance_rating = 'Excellent' THEN 1 ELSE 0 END) / COUNT(*) * 100, 2) AS excellent_pct
+-- FROM hr_raw_data
+-- GROUP BY department
+-- ORDER BY excellent_pct DESC;
 
+-- Question 14: Is there a relationship between performance_rating and salary (do top performers earn more)?
+-- select performance_rating ,round(avg(salary),2) as avg_salary from hr_raw_data group by performance_rating;
+-- select * from hr_raw_data;
 
+-- Question 15: Which job_levels have the most "Needs Improvement" ratings?
+-- select job_level,count(*) as need_improvement_counts from hr_raw_data where performance_rating ='Needs Improvement' group by job_level order by need_improvement_counts desc;
 
+-- Question 16: What is the attrition rate (% Resigned) by department?
 
+-- select department,
+--    SUM(CASE WHEN status = 'Resigned' THEN 1 ELSE 0 END) AS resigned_count,
+--   ROUND(SUM(CASE WHEN status = 'Resigned' THEN 1 ELSE 0 END) / COUNT(*) * 100, 2) AS resigned_pct
+--   from hr_raw_data group by department;
 
+-- Question 17: What is the attrition rate by job_level?
+-- SELECT job_level,
+--   SUM(CASE WHEN status = 'Resigned' THEN 1 ELSE 0 END) AS resigned_count,
+--   ROUND(SUM(CASE WHEN status = 'Resigned' THEN 1 ELSE 0 END) / COUNT(*) * 100, 2) AS resigned_pct
+-- FROM hr_raw_data 
+-- GROUP BY job_level
+-- ORDER BY resigned_pct DESC;
 
-
-
-
-
+-- Question 18: Does work_mode affect attrition rate (are remote employees more likely to resign)?
 
 
 
