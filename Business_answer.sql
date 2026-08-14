@@ -1,6 +1,5 @@
 
 
-
 -- Question 1: What is the total headcount by department?
 -- select department,count(*) as headcount from hr_raw_data group by department order by headcount desc;
 
@@ -96,12 +95,47 @@
 -- ORDER BY resigned_pct DESC;
 
 -- Question 18: Does work_mode affect attrition rate (are remote employees more likely to resign)?
+-- SELECT work_mode,
+--   SUM(CASE WHEN status = 'Resigned' THEN 1 ELSE 0 END) AS resigned_count,
+--   ROUND(SUM(CASE WHEN status = 'Resigned' THEN 1 ELSE 0 END) / COUNT(*) * 100, 2) AS resigned_pct
+-- FROM hr_raw_data
+-- GROUP BY work_mode
+-- ORDER BY resigned_pct DESC;
 
+-- Question 19: What is the average experience_years of employees who resigned vs those still active?
+-- select status,round(avg(experience_years),2)as avg_experience from hr_raw_data group by status;
 
+-- Question 20: Which country/city has the highest attrition rate?
+-- select country,
+-- sum(case when status='Resigned' then 1 else 0 end) as total_resigned,
+-- round(sum(case when status='Resigned' then 1 else 0 end)/count(*) * 100,2) as total_avg_resigned
+-- from hr_raw_data
+-- group by country,city;
 
+-- Question 21: What is the year-over-year headcount growth (hires per hire_year)?
+-- select hire_year,count(hire_year) as total_count from hr_raw_data group by hire_year order by hire_year;
 
+-- Question 22: Which department has hired the most people in the last 3 years?
+-- SELECT department, COUNT(*) AS recent_hires
+-- FROM hr_raw_data
+-- WHERE hire_year >= (SELECT MAX(hire_year) - 2 FROM hr_raw_data)
+-- GROUP BY department
+-- ORDER BY recent_hires DESC;
 
+-- Question 23: What is the average experience_years of new hires over time (are you hiring more experienced people recently)?
+-- SELECT hire_year, ROUND(AVG(experience_years), 2) AS avg_experience
+-- FROM hr_raw_data
+-- GROUP BY hire_year
+-- ORDER BY hire_year ASC;
 
+-- Question 24: What is the average tenure/experience by job_title?
+-- select job_title, round(avg(experience_years),2) as avg_experience_year from hr_raw_data group by job_title order by avg_experience_year;
+
+-- Question 25: What is the distribution of work_mode (Remote/Hybrid/On-site) across departments?
+-- SELECT department, work_mode, COUNT(*) AS headcount
+-- FROM hr_raw_data
+-- GROUP BY department, work_mode
+-- ORDER BY department, headcount DESC;
 
 
 
