@@ -1,4 +1,4 @@
-# HR Analytics Dashboard — SQL + Power BI
+# HR Analytics  — SQL 
 
 ## Overview
 Analyzed a 2M-row HR dataset from Kaggle to uncover attrition drivers, 
