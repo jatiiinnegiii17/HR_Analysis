@@ -1,5 +1,6 @@
 
 
+
 -- Question 1: What is the total headcount by department?
 -- select department,count(*) as headcount from hr_raw_data group by department order by headcount desc;
 
