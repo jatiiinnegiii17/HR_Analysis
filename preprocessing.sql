@@ -74,7 +74,7 @@
 -- CREATE INDEX idx_status ON hr_raw_data(status);
 -- CREATE INDEX idx_hire_year ON hr_raw_data(hire_year);
 -- CREATE INDEX idx_job_level ON hr_raw_data(job_level);
-select * from hr_raw_data;
+-- select * from hr_raw_data;
 
 
 
