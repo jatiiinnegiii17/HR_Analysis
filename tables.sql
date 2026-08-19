@@ -1,23 +1,17 @@
--- create database walmart;
--- use walmart;
-
--- CREATE TABLE walmart_sales (
---     invoice_id VARCHAR(20) PRIMARY KEY,
---     branch CHAR(1),
---     city VARCHAR(30),
---     customer_type VARCHAR(30),
---     gender VARCHAR(10),
---     product_line VARCHAR(100),
---     unit_price DECIMAL(10,2),
---     quantity INT,
---     tax_5_percent DECIMAL(10,4),
---     total DECIMAL(10,2),
---     sale_date DATE,
---     sale_time TIME,
---     payment VARCHAR(30),
---     cogs DECIMAL(10,2),
---     gross_margin_percentage DECIMAL(10,9),
---     gross_income DECIMAL(10,4),
---     rating DECIMAL(3,1)
-
--- );
+CREATE TABLE hr_clean (
+    employee_id INT,
+    full_name VARCHAR(100),
+    department VARCHAR(100),
+    job_title VARCHAR(100),
+    hire_date DATE,
+    performance_rating DECIMAL(3,2),
+    experience_years INT,
+    status VARCHAR(50),
+    work_mode VARCHAR(50),
+    salary DECIMAL(12,2),
+    country VARCHAR(100),
+    city VARCHAR(100),
+    age INT,
+    job_level VARCHAR(50),
+    hire_year INT
+);
