@@ -1,151 +1,243 @@
-
-
 -- Question 1: What is the total headcount by department?
--- select department,count(*) as headcount from hr_raw_data group by department order by headcount desc;
+SELECT department, COUNT(*) AS headcount
+FROM hr_clean
+GROUP BY department
+ORDER BY headcount DESC;
+
 
 -- Question 2: What is the age distribution of employees (grouped into bands: 20-30, 31-40, 41-50, etc.)?
--- select case 
--- when age between 20 and 30 then '20-30'
--- when age between 31 and 40 then '31-40'
--- when age between 41 and 50 then '41-50'
--- else '51+'
--- end as age_band,
--- count(*) as headcount
--- from hr_raw_data 
--- group by age_band;
+SELECT CASE 
+    WHEN age BETWEEN 20 AND 30 THEN '20-30'
+    WHEN age BETWEEN 31 AND 40 THEN '31-40'
+    WHEN age BETWEEN 41 AND 50 THEN '41-50'
+    ELSE '51+'
+END AS age_band,
+COUNT(*) AS headcount
+FROM hr_clean 
+GROUP BY age_band;
+
 
 -- Question 3: What is the headcount split by job_level (Junior/Mid/Senior/Executive)?
--- select count(employee_id) as headcount,job_level from hr_raw_data group by job_level;
+SELECT COUNT(employee_id) AS headcount, job_level
+FROM hr_clean
+GROUP BY job_level;
+
 
 -- Question 4: What is the headcount by country and city?
--- select country,city,count(*) as headcount from hr_raw_data group by country, city order by country;
+SELECT country, city, COUNT(*) AS headcount
+FROM hr_clean
+GROUP BY country, city
+ORDER BY country;
+
 
 -- Question 5: What is the ratio of Active vs Resigned employees overall and by department?
--- select status,count(status) as employee_count from hr_raw_data group by status;
+SELECT status, COUNT(status) AS employee_count
+FROM hr_clean
+GROUP BY status;
+
 
 -- Question 6: What is the average salary by department?
--- select department,round(avg(salary),2) as avg_salary from hr_raw_data group by department;
+SELECT department, ROUND(AVG(salary), 2) AS avg_salary
+FROM hr_clean
+GROUP BY department;
+
 
 -- Question 7: What is the average salary by job_level?
--- select job_level,round(avg(salary),2) as avg_salary from hr_raw_data group by job_level;
+SELECT job_level, ROUND(AVG(salary), 2) AS avg_salary
+FROM hr_clean
+GROUP BY job_level;
+
 
 -- Question 8: What is the average salary by job_title (top 10 highest-paid roles)?
--- select job_title,round(avg(salary),2) as avg_salary from hr_raw_data group by job_title order by avg_salary desc limit 10;
+SELECT job_title, ROUND(AVG(salary), 2) AS avg_salary
+FROM hr_clean
+GROUP BY job_title
+ORDER BY avg_salary DESC
+LIMIT 10;
+
 
 -- Question 9: Is there a salary gap between work_mode types (Remote vs Hybrid vs On-site)?
--- select work_mode,round(avg(salary),2) as avg_salary from hr_raw_data group by work_mode;
+SELECT work_mode, ROUND(AVG(salary), 2) AS avg_salary
+FROM hr_clean
+GROUP BY work_mode;
+
 
 -- Question 10: What is the salary range (min/max/avg) by country?
--- select country,min(salary) as min_salary,max(salary) as max_salary,round(avg(salary),2) as avg_salary from hr_raw_data group by country; 
+SELECT country,
+       MIN(salary) AS min_salary,
+       MAX(salary) AS max_salary,
+       ROUND(AVG(salary), 2) AS avg_salary
+FROM hr_clean
+GROUP BY country;
+
 
 -- Question 11: How does salary correlate with experience_years?
--- select case 
--- when experience_years between 0 and 5 then '0-5 yrs'
--- when experience_years between 6 and 10 then '6-10 yrs'
--- when experience_years between 11 and 15 then '11-15 yrs'
--- when experience_years between 16 and 20 then '16-20 yrs'
--- when experience_years between 21 and 25 then '21-25 yrs'
--- else '26+ yrs'
--- end as experience_band,
--- round(avg(salary),2) as avg_salary
--- from hr_raw_data
--- group by experience_band
--- order by experience_band;
+SELECT CASE 
+    WHEN experience_years BETWEEN 0 AND 5 THEN '0-5 yrs'
+    WHEN experience_years BETWEEN 6 AND 10 THEN '6-10 yrs'
+    WHEN experience_years BETWEEN 11 AND 15 THEN '11-15 yrs'
+    WHEN experience_years BETWEEN 16 AND 20 THEN '16-20 yrs'
+    WHEN experience_years BETWEEN 21 AND 25 THEN '21-25 yrs'
+    ELSE '26+ yrs'
+END AS experience_band,
+ROUND(AVG(salary), 2) AS avg_salary
+FROM hr_clean
+GROUP BY experience_band
+ORDER BY experience_band;
+
 
 -- Question 12: What is the distribution of performance_rating across the company?
--- select performance_rating,count(performance_rating)as rating_counts from hr_raw_data group by performance_rating; 
+SELECT performance_rating,
+       COUNT(performance_rating) AS rating_counts
+FROM hr_clean
+GROUP BY performance_rating;
 
--- I realised that data have some blank value so i checked it with below command
--- SELECT * FROM hr_raw_data WHERE performance_rating = '' LIMIT 10;
 
--- so i replaced the blank space with not rated by the below querie
--- UPDATE hr_raw_data 
--- SET performance_rating = 'Not Rated' 
--- WHERE performance_rating = '';
+-- Check blank performance_rating values
+SELECT *
+FROM hr_clean
+WHERE performance_rating = ''
+LIMIT 10;
+
+
+-- Replace blank performance_rating with Not Rated
+UPDATE hr_clean 
+SET performance_rating = 'Not Rated' 
+WHERE performance_rating = '';
+
 
 -- Question 13: Which departments have the highest proportion of "Excellent" ratings?
--- SELECT department,
---   COUNT(*) AS total_employees,
---   SUM(CASE WHEN performance_rating = 'Excellent' THEN 1 ELSE 0 END) AS excellent_count,
---   ROUND(SUM(CASE WHEN performance_rating = 'Excellent' THEN 1 ELSE 0 END) / COUNT(*) * 100, 2) AS excellent_pct
--- FROM hr_raw_data
--- GROUP BY department
--- ORDER BY excellent_pct DESC;
+SELECT department,
+       COUNT(*) AS total_employees,
+       SUM(CASE WHEN performance_rating = 'Excellent' THEN 1 ELSE 0 END) AS excellent_count,
+       ROUND(
+           SUM(CASE WHEN performance_rating = 'Excellent' THEN 1 ELSE 0 END) 
+           / COUNT(*) * 100, 
+           2
+       ) AS excellent_pct
+FROM hr_clean
+GROUP BY department
+ORDER BY excellent_pct DESC;
 
--- Question 14: Is there a relationship between performance_rating and salary (do top performers earn more)?
--- select performance_rating ,round(avg(salary),2) as avg_salary from hr_raw_data group by performance_rating;
--- select * from hr_raw_data;
+
+-- Question 14: Is there a relationship between performance_rating and salary?
+SELECT performance_rating,
+       ROUND(AVG(salary), 2) AS avg_salary
+FROM hr_clean
+GROUP BY performance_rating;
+
+SELECT *
+FROM hr_clean;
+
 
 -- Question 15: Which job_levels have the most "Needs Improvement" ratings?
--- select job_level,count(*) as need_improvement_counts from hr_raw_data where performance_rating ='Needs Improvement' group by job_level order by need_improvement_counts desc;
+SELECT job_level,
+       COUNT(*) AS need_improvement_counts
+FROM hr_clean
+WHERE performance_rating = 'Needs Improvement'
+GROUP BY job_level
+ORDER BY need_improvement_counts DESC;
+
 
 -- Question 16: What is the attrition rate (% Resigned) by department?
+SELECT department,
+       SUM(CASE WHEN status = 'Resigned' THEN 1 ELSE 0 END) AS resigned_count,
+       ROUND(
+           SUM(CASE WHEN status = 'Resigned' THEN 1 ELSE 0 END) 
+           / COUNT(*) * 100, 
+           2
+       ) AS resigned_pct
+FROM hr_clean
+GROUP BY department;
 
--- select department,
---    SUM(CASE WHEN status = 'Resigned' THEN 1 ELSE 0 END) AS resigned_count,
---   ROUND(SUM(CASE WHEN status = 'Resigned' THEN 1 ELSE 0 END) / COUNT(*) * 100, 2) AS resigned_pct
---   from hr_raw_data group by department;
 
 -- Question 17: What is the attrition rate by job_level?
--- SELECT job_level,
---   SUM(CASE WHEN status = 'Resigned' THEN 1 ELSE 0 END) AS resigned_count,
---   ROUND(SUM(CASE WHEN status = 'Resigned' THEN 1 ELSE 0 END) / COUNT(*) * 100, 2) AS resigned_pct
--- FROM hr_raw_data 
--- GROUP BY job_level
--- ORDER BY resigned_pct DESC;
+SELECT job_level,
+       SUM(CASE WHEN status = 'Resigned' THEN 1 ELSE 0 END) AS resigned_count,
+       ROUND(
+           SUM(CASE WHEN status = 'Resigned' THEN 1 ELSE 0 END) 
+           / COUNT(*) * 100, 
+           2
+       ) AS resigned_pct
+FROM hr_clean 
+GROUP BY job_level
+ORDER BY resigned_pct DESC;
 
--- Question 18: Does work_mode affect attrition rate (are remote employees more likely to resign)?
--- SELECT work_mode,
---   SUM(CASE WHEN status = 'Resigned' THEN 1 ELSE 0 END) AS resigned_count,
---   ROUND(SUM(CASE WHEN status = 'Resigned' THEN 1 ELSE 0 END) / COUNT(*) * 100, 2) AS resigned_pct
--- FROM hr_raw_data
--- GROUP BY work_mode
--- ORDER BY resigned_pct DESC;
+
+-- Question 18: Does work_mode affect attrition rate?
+SELECT work_mode,
+       SUM(CASE WHEN status = 'Resigned' THEN 1 ELSE 0 END) AS resigned_count,
+       ROUND(
+           SUM(CASE WHEN status = 'Resigned' THEN 1 ELSE 0 END) 
+           / COUNT(*) * 100, 
+           2
+       ) AS resigned_pct
+FROM hr_clean
+GROUP BY work_mode
+ORDER BY resigned_pct DESC;
+
 
 -- Question 19: What is the average experience_years of employees who resigned vs those still active?
--- select status,round(avg(experience_years),2)as avg_experience from hr_raw_data group by status;
+SELECT status,
+       ROUND(AVG(experience_years), 2) AS avg_experience
+FROM hr_clean
+GROUP BY status;
+
 
 -- Question 20: Which country/city has the highest attrition rate?
--- select country,
--- sum(case when status='Resigned' then 1 else 0 end) as total_resigned,
--- round(sum(case when status='Resigned' then 1 else 0 end)/count(*) * 100,2) as total_avg_resigned
--- from hr_raw_data
--- group by country,city;
+SELECT country,
+       city,
+       SUM(CASE WHEN status = 'Resigned' THEN 1 ELSE 0 END) AS total_resigned,
+       ROUND(
+           SUM(CASE WHEN status = 'Resigned' THEN 1 ELSE 0 END) 
+           / COUNT(*) * 100, 
+           2
+       ) AS total_avg_resigned
+FROM hr_clean
+GROUP BY country, city
+ORDER BY total_avg_resigned DESC;
+
 
 -- Question 21: What is the year-over-year headcount growth (hires per hire_year)?
--- select hire_year,count(hire_year) as total_count from hr_raw_data group by hire_year order by hire_year;
+SELECT hire_year,
+       COUNT(hire_year) AS total_count
+FROM hr_clean
+GROUP BY hire_year
+ORDER BY hire_year;
+
 
 -- Question 22: Which department has hired the most people in the last 3 years?
--- SELECT department, COUNT(*) AS recent_hires
--- FROM hr_raw_data
--- WHERE hire_year >= (SELECT MAX(hire_year) - 2 FROM hr_raw_data)
--- GROUP BY department
--- ORDER BY recent_hires DESC;
+SELECT department,
+       COUNT(*) AS recent_hires
+FROM hr_clean
+WHERE hire_year >= (
+    SELECT MAX(hire_year) - 2
+    FROM hr_clean
+)
+GROUP BY department
+ORDER BY recent_hires DESC;
 
--- Question 23: What is the average experience_years of new hires over time (are you hiring more experienced people recently)?
--- SELECT hire_year, ROUND(AVG(experience_years), 2) AS avg_experience
--- FROM hr_raw_data
--- GROUP BY hire_year
--- ORDER BY hire_year ASC;
+
+-- Question 23: What is the average experience_years of new hires over time?
+SELECT hire_year,
+       ROUND(AVG(experience_years), 2) AS avg_experience
+FROM hr_clean
+GROUP BY hire_year
+ORDER BY hire_year ASC;
+
 
 -- Question 24: What is the average tenure/experience by job_title?
--- select job_title, round(avg(experience_years),2) as avg_experience_year from hr_raw_data group by job_title order by avg_experience_year;
-
--- Question 25: What is the distribution of work_mode (Remote/Hybrid/On-site) across departments?
--- SELECT department, work_mode, COUNT(*) AS headcount
--- FROM hr_raw_data
--- GROUP BY department, work_mode
--- ORDER BY department, headcount DESC;
+SELECT job_title,
+       ROUND(AVG(experience_years), 2) AS avg_experience_year
+FROM hr_clean
+GROUP BY job_title
+ORDER BY avg_experience_year;
 
 
-
-
-
-
-
-
-
-
-
-
-
+-- Question 25: What is the distribution of work_mode across departments?
+SELECT department,
+       work_mode,
+       COUNT(*) AS headcount
+FROM hr_clean
+GROUP BY department, work_mode
+ORDER BY department, headcount DESC;
