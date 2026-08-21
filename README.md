@@ -1,4 +1,5 @@
-# HR Analytics  — SQL 
+# HR Analytics  — SQL & PYTHON
+
 
 ## Overview
 Analyzed a 2M-row HR dataset from Kaggle to uncover attrition drivers, 
