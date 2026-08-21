@@ -59,6 +59,7 @@ Visualizations built on the full cleaned dataset — see
 3. Run preprocessing.sql to clean the data
 4. Run Business_answer.sql for the full business analysis
 5. Open matplotlib_analysis.ipynb in Jupyter for visuals
+6. 
 
 ## Author
 Jatin Negi
