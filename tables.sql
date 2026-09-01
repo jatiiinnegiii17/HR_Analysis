@@ -26,7 +26,7 @@ ALTER TABLE hr_data
 
 
 
-LOAD DATA LOCAL INFILE '/Users/jatiiinnegiii/Documents/Data Analyst/Dataset/hr_raw.csv'
+LOAD DATA LOCAL INFILE 'D:/Data Analyst/Hr_analysis/hr_clean.csv'
 INTO TABLE hr_data
 CHARACTER SET utf8mb4
 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
